@@ -1,0 +1,29 @@
+
+[1mFrom:[0m /home/ec2-user/environment/youtube_api/app/controllers/application_controller.rb:26 ApplicationController#find_videos:
+
+     [1;34m7[0m: [32mdef[0m [1;34mfind_videos[0m(keyword, [35mafter[0m: [1;34m1[0m.months.ago, [35mbefore[0m: [1;34;4mTime[0m.now)
+     [1;34m8[0m:   service = [1;34;4mGoogle[0m::[1;34;4mApis[0m::[1;34;4mYoutubeV3[0m::[1;34;4mYouTubeService[0m.new
+     [1;34m9[0m:   service.key = [1;34;4mGOOGLE_API_KEY[0m
+    [1;34m10[0m: 
+    [1;34m11[0m:   next_page_token = [1;36mnil[0m
+    [1;34m12[0m:   [32mbegin[0m
+    [1;34m13[0m:     opt = {
+    [1;34m14[0m:       [35mq[0m: keyword,
+    [1;34m15[0m:       [35mtype[0m: [31m[1;31m'[0m[31mvideo[1;31m'[0m[31m[0m,
+    [1;34m16[0m:       [35mmax_results[0m: [1;34m10[0m,
+    [1;34m17[0m:       [35morder[0m: [33m:date[0m,
+    [1;34m18[0m:       [35mpage_token[0m: next_page_token,
+    [1;34m19[0m:       [35mpublished_after[0m: after.iso8601,
+    [1;34m20[0m:       [35mpublished_before[0m: before.iso8601
+    [1;34m21[0m:     }
+    [1;34m22[0m:     results = service.list_searches([33m:snippet[0m, opt)
+    [1;34m23[0m:     results.items.each [32mdo[0m |item|
+    [1;34m24[0m:       snippet = item.snippet
+    [1;34m25[0m:       binding.pry
+ => [1;34m26[0m:       puts [31m[1;31m"[0m[31m[1;35m\"[0m[31m#{snippet.title}[0m[31m[1;35m\"[0m[31m by #{snippet.channel_title}[0m[31m (#{snippet.published_at}[0m[31m)[1;31m"[0m[31m[0m
+    [1;34m27[0m:     [32mend[0m
+    [1;34m28[0m: 
+    [1;34m29[0m:     next_page_token = results.next_page_token
+    [1;34m30[0m:   [32mend[0m [32mwhile[0m next_page_token.present?
+    [1;34m31[0m: [32mend[0m
+
