@@ -1,15 +1,16 @@
 require 'csv'
-if @youtube_data.present?
+if @videos.present?
 CSV.generate do |csv|
-  column_names = %w(タイトル 投稿日時 再生数 登録者数 URL)
+  column_names = %w(ID タイトル 投稿日時 再生数 チャンネル チャンネル数)
   csv << column_names
-  @youtube_data.items.each do |data|
-  #snippet = data.snippet
-  snippet = data.snippet
+  @videos.each do |video|
     csv_column_values = [
-      snippet.title,
-      snippet.published_at,
-      snippet.channel_title
+      video["video_id"],
+      video["title"],
+      video["published_at"],
+      video["view_count"],
+      video["channel_title"],
+      video["subscriber_count"]
     ]
     csv << csv_column_values
   end

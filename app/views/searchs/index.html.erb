@@ -6,11 +6,11 @@
 <%= f.submit '検索' %>
 <%end%>
 <%= link_to "CSV出力", youtube_path(format: :csv), class: "btn btn-primary" %>
-<%if @youtube_data.present? %>
-<% @youtube_data.items.each do |item| %>
-  <% snippet = item.snippet %>
-  <p><%= snippet.title %></p>
-  <p><%= snippet.published_at %><%= snippet.channel_title %></p>
-  <div><iframe width="560" height="315" src="https://www.youtube.com/embed/<%= item.id.video_id %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<%if @videos.present? %>
+<% @videos.each do |video| %>
+  <p><%= video["title"] %></p>
+  <p><%= video["published_at"] %><%= video["channel_title"] %></p>
+  <div><iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["video_id"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 <% end %>
 <% end %>

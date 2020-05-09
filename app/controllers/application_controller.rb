@@ -1,23 +1,5 @@
 class ApplicationController < ActionController::Base
-require 'google/apis/youtube_v3'
-require 'active_support/all'
+ include ApiHelper
 
-GOOGLE_API_KEY="AIzaSyBnfTC1R_hxhRPFxVnq6_3I9ZQUq_SsuNU" #上記で作成したキー
-
-def find_videos(keyword,row_count, after: 1.months.ago, before: Time.now)
-    service = Google::Apis::YoutubeV3::YouTubeService.new
-    service.key = GOOGLE_API_KEY
-    next_page_token = nil
-    opt = {
-      q: keyword,
-      type: 'video',
-      max_results: row_count.to_i,
-      order: :date,
-      page_token: next_page_token,
-      published_after: after.iso8601,
-      published_before: before.iso8601
-    }
-    service.list_searches(:snippet, opt)
-  end
 
 end
