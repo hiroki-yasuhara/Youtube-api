@@ -13,3 +13,13 @@
  *= require_tree .
  *= require_self
  */
+ .bold{
+     font-weight:bold;
+     color: blue;
+ }
+ .youtube{
+     font-size: 40px;
+
+
+padding-top: 10px;
+ }

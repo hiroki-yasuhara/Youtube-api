@@ -1,16 +1,28 @@
+
 <h1>Youtube検索</h1>
 
   <%= form_with(url: searchs_url, scope: :search, local: true) do |f| %>
-  <label>キーワード</label><%= f.text_field :keyword,:value =>session[:keyword]%><br>
-  <label>数　　　　</label><%= f.number_field :row_count,:value =>session[:row_count], min:1,max:20,step:1%> 
-<%= f.submit '検索' %>
+  <label>キーワード　　：</label><%= f.text_field :keyword,:value =>session[:keyword]%><br>
+  <label>検索件数(上位) ：</label><%= f.number_field :row_count,:value =>session[:row_count], min:1,max:30,step:1%> <br>
+  <label>並び順　　　　：</label><%= f.select :order,[['日付','date'],['関連度','relevance'],['視聴回数','viewCount'],['評価','rating']],{selected: session[:order]}%> <br>
+  <label>投稿期間　　　：</label><%= f.select :publishedAfter,[['1ヵ月前','1.months.ago'],['3ヵ月前','3.months.ago'],['6ヵ月前','6.months.ago'],['1年前','1.years.ago'],['3年前','3.years.ago']],{selected: session[:publishedAfter]}%> <br>
+  <label>フィルター　　：</label><%= f.number_field :filter,:value =>session[:filter], min:1,max:1000%> % 以上　(再生数/チャンネル登録数)<br>
+  <label>動画の非表示　：</label><%= f.check_box :video_hidden,{checked: session[:video_hidden]}%><br>
+<%= f.submit '検索' , class: "mt-1 mb-3"%>
 <%end%>
-<%= link_to "CSV出力", youtube_path(format: :csv), class: "btn btn-primary" %>
-
+<%= link_to "CSV出力", youtube_path(format: :csv), class: "btn btn-primary mb-3" %>
 <%if @videos.present? %>
-<% @videos.each do |video| %>
-  <p><%= video["title"] %></p>
-  <p><%= video["published_at"] %><%= video["channel_title"] %></p>
-  <div><iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["video_id"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-<% end %>
+  <h3 class="mb-3 border-bottom border-primary">出力件数：<%=session[:cont]%> / <%=session[:row_count]%> 件</h3>
+  <% @videos.each do |video| %>
+  <div class="mb-3 border-bottom border-primary">
+    <label class ="bold">タイトル：</label><label><%= video["title"] %></label><br>
+    <label class ="bold">投稿日：</label><label><%= video["published_at"] %>　</label>
+    <label class ="bold">再生数：</label><label><%=video["view_count"]%>回　</label>
+    <label class ="bold">再生率：</label><label><%=video["play_rate"]%>％</label><br>
+    <%if session[:video_hidden] == false%>
+      <div ><iframe width="560" height="315" src="https://www.youtube.com/embed/<%= video["video_id"] %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <% end %>
+  </div>
+  <% end %>
+  <%= paginate @videos,params:{:param_page=>"page"}%>
 <% end %>
