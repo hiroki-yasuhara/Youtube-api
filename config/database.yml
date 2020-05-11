@@ -49,6 +49,10 @@ test:
 #
 production:
   <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: youtube_api_production
   username: youtube_api
   password: <%= ENV['YOUTUBE_API_DATABASE_PASSWORD'] %>
+  
