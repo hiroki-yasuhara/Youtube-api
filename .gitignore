@@ -13,7 +13,7 @@
 !/log/.keep
 !/tmp/.keep
 
-/.env.development
+.env
 
 /node_modules
 /yarn-error.log
